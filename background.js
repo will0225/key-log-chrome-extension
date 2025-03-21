@@ -1,4 +1,4 @@
-let baseUrl = "http://44.211.167.171/";
+let baseUrl = "http://44.211.167.171";
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(request, sender, sendResponse)

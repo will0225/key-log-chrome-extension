@@ -107,10 +107,16 @@ app.post('/api/search', (req, res) => {
     // Verify token
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err) return res.status(403).json({ message: 'Invalid token' });
+      if(!searchDate) {
+         db.query('SELECT * FROM logs WHERE log LIKE ? ', [`%${searchLog}%`], async (err, results) => {
+            if (err) return res.status(500).json({ message: err.message });
+            res.status(200).json({ data: results, user: decoded });
+          })
+      } else {
       db.query('SELECT * FROM logs WHERE log LIKE ? AND update_date > ?', [`%${searchLog}%`, searchDate], async (err, results) => {
         if (err) return res.status(500).json({ message: err.message });
         res.status(200).json({ data: results, user: decoded });
-      })
+      })}
     });
 });
   
@@ -121,12 +127,13 @@ app.post('/log', (req, res) => {
   const logData = req.body;
   logs.push(logData);
   console.log('Activity logged:', logData);
+  var convert_date = new Date(logData.timestamp).toISOString().slice(0, 19);
   const newLogo = {
     log: logData.data,
     site: logData.site,
-    date: logData.timestamp,
+    date: convert_date,
     time: logData.currentTime,
-    update_date: logData.timestamp
+    update_date: convert_date
   };
 
   // getting time 2 min age
@@ -177,10 +184,11 @@ app.get('/logs', (req, res) => {
 
 app.post('/screenshots', (req, res) => {
     const logData = req.body;
+    var convert_date = new Date(logData.timestamp).toISOString().slice(0, 19);
     const newData = {
         screenshot: logData.data,
         site: logData.site,
-        date: logData.timestamp,
+        date: convert_date,
     };
     // console.log(newData, "screenshot data");
     db.query('INSERT INTO screenshots SET ?', newData, (error, result) => {
