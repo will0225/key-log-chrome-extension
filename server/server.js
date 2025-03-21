@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 5000;
+const path = require('path');
 const cors = require('cors');
 const db = require('./config/database');
 const bcrypt = require('bcryptjs');
@@ -17,6 +18,8 @@ app.use(cors({
 // Routes
 // Error middleware
 let logs = [];
+
+
 
 function timeDifference(timestamp1, timestamp2) {
     console.log(timestamp1, timestamp2)
@@ -195,7 +198,13 @@ app.get('/screenshots', (req, res) => {
     
 });
   
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, 'build')));
 
+// All routes should be handled by React's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

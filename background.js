@@ -68,24 +68,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
   });
 
-
-  chrome.action.onClicked.addListener((tab) => {
-    // Send a message to the content script to check if the user is logged in
-    // chrome.tabs.sendMessage(tab.id, { action: "checkLoginStatus" }, (response) => {
-    //   if (response && response.isLoggedIn) {
-    //     // User is logged in, navigate to dashboard
-    //     chrome.tabs.update(tab.id, { url: "https://localhost:3000/dashboard" });
-    //   } else {
-    //     // User is not logged in, navigate to register
-    //     chrome.tabs.update(tab.id, { url: "https://localhost:3000/register" });
-    //   }
-    // });
-
-    // chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
-    chrome.runtime.openOptionsPage();
-
-  });
-
   // Function to capture a screenshot every minute
   function captureScreenshot() {
     // Query the active tab in the current window
@@ -209,4 +191,21 @@ const getCurrentUser = () => {
   
   // Optionally, trigger the capture immediately when the extension starts
   captureScreenshot();
+
+  chrome.action.onClicked.addListener((tab) => {
+    // Send a message to the content script to check if the user is logged in
+    // chrome.tabs.sendMessage(tab.id, { action: "checkLoginStatus" }, (response) => {
+    //   if (response && response.isLoggedIn) {
+    //     // User is logged in, navigate to dashboard
+    //     chrome.tabs.update(tab.id, { url: "https://localhost:3000/dashboard" });
+    //   } else {
+    //     // User is not logged in, navigate to register
+    //     chrome.tabs.update(tab.id, { url: "https://localhost:3000/register" });
+    //   }
+    // });
+
+    // chrome.tabs.create({ url: chrome.runtime.getURL("options.html") });
+    chrome.runtime.openOptionsPage();
+
+  });
   
