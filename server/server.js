@@ -6,10 +6,11 @@ const cors = require('cors');
 const db = require('./config/database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 // Middleware to parse JSON bodies
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(cors({
-    origin: 'http://localhost:3000',  // Allow requests from this domain
+    origin: process.env.APP_URL,  // Allow requests from this domain
     methods: ['GET', 'POST'],        // Allow only GET and POST requests
     allowedHeaders: ['Content-Type', 'Authorization'], // Allow certain headers
   }));
