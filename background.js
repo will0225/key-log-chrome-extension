@@ -1,4 +1,5 @@
 let baseUrl = "http://44.211.167.171";
+// let baseUrl = "http://localhost:5000";
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log(request, sender, sendResponse)
@@ -64,7 +65,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                  localStorage.setItem("logs", JSON.stringify(logs))
             });
         });
-        
+        sendResponse({ success: true });
     }
   });
 

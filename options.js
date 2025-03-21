@@ -1,5 +1,6 @@
 // options.js
 let baseUrl = "http://44.211.167.171";
+// let baseUrl = "http://localhost:5000";
 
 document.addEventListener('DOMContentLoaded', function() {
     // Check if the user is logged in

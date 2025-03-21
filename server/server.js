@@ -157,7 +157,7 @@ app.post('/log', (req, res) => {
             var updateLog = `${filterResult[0].log}`+" "+`${logData.data}`;
             const updateValues = [updateLog, logData.timestamp, specifiedId];
             db.execute(updateQuery, updateValues, (err, results) => {
-                if (error) throw error;
+                if (err) throw err;
                 res.status(200).send({ message: 'Log updated successfully' });
             });
         }
@@ -178,7 +178,6 @@ app.get('/logs', (req, res) => {
         // res.json(results);
         res.status(200).send({ data: results });
     });
-    
 });
 
 
