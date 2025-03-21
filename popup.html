@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Activity Logger</title>
+</head>
+<body>
+  <h1>Activity Logger</h1>
+  <!-- <button id="clearLogs">Clear Logs</button> -->
+  <!-- <div id="logs"></div> -->
+
+  <!-- <script src="popup.js"></script> -->
+  <img id="screenshot" alt="Last Screenshot" />
+  <script>
+    // Load the latest screenshot from chrome storage
+    chrome.storage.local.get('screenshot', (data) => {
+      if (data.screenshot) {
+        document.getElementById('screenshot').src = data.screenshot;
+      }
+    });
+  </script>
+</body>
+</html>
