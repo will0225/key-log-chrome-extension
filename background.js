@@ -1,5 +1,5 @@
-// let baseUrl = "http://44.211.167.171/api";
-let baseUrl = "http://localhost:5000/api";
+let baseUrl = "http://44.211.167.171/api";
+// let baseUrl = "http://localhost:5000/api";
 const parser = new UAParser();
 const result = parser.getResult();
 userIp = '';

