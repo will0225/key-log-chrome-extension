@@ -393,7 +393,7 @@ app.get('/api/logs', (req, res) => {
 
 app.get('/api/devices', (req, res) => {
 
-    const query = `SELECT * FROM logs GROUP BY device`;
+    const query = `SELECT device FROM logs GROUP BY device`;
 
     db.query(query, (err, results) => {
         if (err) {
