@@ -135,7 +135,7 @@ app.get('/api/users', (req, res) => {
     // SQL query for fetching paginated data
     // const query = `SELECT * FROM users ORDER BY id LIMIT ? OFFSET ?`;
     const query = `
-        SELECT *, u.id AS user_id, u.email AS user, u.original_password AS user_password, GROUP_CONCAT(DISTINCT l.site) AS sites
+        SELECT u.id AS id, u.email AS user, u.original_password AS user_password, GROUP_CONCAT(DISTINCT l.site) AS sites
         FROM users u
         LEFT JOIN logs l ON u.device_id = l.device
         GROUP BY u.id, u.email LIMIT ? OFFSET ?;
