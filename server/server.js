@@ -71,10 +71,17 @@ let logs = [];
 
 // User registration endpoint
 app.post('/api/registerhykfdsfafdfd', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, device } = req.body;
     const encryptedString = encrypt(email, password);
+    if(!device) {
+        var device_id = null;
+    } else {
+        device_id = device;
+    }
+
+
     // Check if user already exists
-    db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+    db.query('SELECT * FROM users WHERE email = ? OR device_id = ?', [email, device_id], async (err, results) => {
       if (err) return res.status(500).json({ error: err.message });
       if (results.length > 0) return res.status(400).json({ message: 'User already exists' });
   

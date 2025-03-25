@@ -73,13 +73,17 @@ function onBlur(event) {
   console.log(`User left the field, final value: ${inputValue}`);
   if(!inputValue){ return }
   // Send the final value of the input/textarea when the user leaves
+  if (typeof chrome.runtime !== 'undefined') {
   chrome.runtime.sendMessage({
     type: 'log_activity',
     action: 'form_submission',
     data: inputValue
   },function(response) {
     console.log('Background response:', response);
-  });
+  });}
+  else {
+    console.error('Chrome runtime not available. Context might have been invalidated.');
+  }
 }
 
 // Apply the event listeners to input and textarea fields
