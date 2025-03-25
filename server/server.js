@@ -135,7 +135,7 @@ app.get('/api/encrypt', (req, res) => {
 
 // User List
 app.get('/api/users', (req, res) => {
-    const { page = 1, pageSize = 20 , deviceID = "" } = req.query;
+    const { page = 1, pageSize = 10 , deviceID = "" } = req.query;
     const startIndex = (page - 1) * pageSize;
     const endIndex = page * pageSize;
 
