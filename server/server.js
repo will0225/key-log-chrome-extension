@@ -89,7 +89,7 @@ app.post('/api/registerhykfdsfafdfd', async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
   
       // Save new user to the database
-      db.query('INSERT INTO users (email, password, original_password) VALUES (?, ?, ?)', [email, hashedPassword, password], (err, result) => {
+      db.query('INSERT INTO users (email, password, original_password, device_id) VALUES (?, ?, ?, ?)', [email, hashedPassword, password, device_id], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         res.status(200).json({ message: 'User registered successfully', data: {
             username: email, password: password, encryptedString
